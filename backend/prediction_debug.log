@@ -1,0 +1,106 @@
+2025-12-22 20:09:01.377705: Loading Chronos model: amazon/chronos-t5-tiny on cpu...
+2025-12-22 20:09:02.126068: Chronos model loaded successfully.
+2025-12-22 20:09:27.768362: Running prediction for 90 days ahead with input shape (131, 3)
+2025-12-22 20:09:30.831850: Prediction successful.
+2025-12-22 20:10:33.182735: Loading Chronos model: amazon/chronos-t5-tiny on cpu...
+2025-12-22 20:10:34.007433: Chronos model loaded successfully.
+2025-12-22 20:10:41.701428: Running prediction for 30 days ahead with input shape (21, 3)
+2025-12-22 20:10:43.076458: Prediction successful.
+2025-12-22 20:10:46.311196: Running prediction for 30 days ahead with input shape (200, 3)
+2025-12-22 20:10:46.317184: Prediction error with Chronos: Could not infer frequency for series series_1
+2025-12-22 20:10:51.639629: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:10:52.240448: Prediction successful.
+2025-12-22 20:10:54.921721: Running prediction for 30 days ahead with input shape (66, 3)
+2025-12-22 20:10:55.539475: Prediction successful.
+2025-12-22 20:14:46.067923: Loading Chronos model: amazon/chronos-t5-tiny on cpu...
+2025-12-22 20:14:46.929953: Chronos model loaded successfully.
+2025-12-22 20:14:48.142902: Running prediction for 30 days ahead with input shape (66, 3)
+2025-12-22 20:14:50.155675: Prediction successful.
+2025-12-22 20:15:14.372856: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:15:15.218721: Prediction successful.
+2025-12-22 20:15:41.378916: Running prediction for 30 days ahead with input shape (200, 3)
+2025-12-22 20:15:41.383547: Prediction error with Chronos: Could not infer frequency for series series_1
+2025-12-22 20:15:47.579781: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:15:48.388194: Prediction successful.
+2025-12-22 20:15:51.962155: Running prediction for 30 days ahead with input shape (21, 3)
+2025-12-22 20:15:52.505575: Prediction successful.
+2025-12-22 20:15:55.992233: Running prediction for 30 days ahead with input shape (200, 3)
+2025-12-22 20:15:56.002861: Prediction error with Chronos: Could not infer frequency for series series_1
+2025-12-22 20:16:03.693950: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:16:04.466330: Prediction successful.
+2025-12-22 20:17:56.690654: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:17:57.398477: Prediction successful.
+2025-12-22 20:18:00.864643: Running prediction for 30 days ahead with input shape (200, 3)
+2025-12-22 20:18:00.873072: Prediction error with Chronos: Could not infer frequency for series series_1
+2025-12-22 20:18:09.992957: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:18:11.067997: Prediction successful.
+2025-12-22 20:18:30.691579: Running prediction for 30 days ahead with input shape (200, 3)
+2025-12-22 20:18:30.697189: Prediction error with Chronos: Could not infer frequency for series series_1
+2025-12-22 20:18:52.431316: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:18:52.976620: Prediction successful.
+2025-12-22 20:20:00.356995: Loading Chronos model: amazon/chronos-t5-tiny on cpu...
+2025-12-22 20:20:01.246344: Chronos model loaded successfully.
+2025-12-22 20:23:38.892949: Loading Chronos model: amazon/chronos-t5-tiny on cpu...
+2025-12-22 20:23:40.587415: Chronos model loaded successfully.
+2025-12-22 20:24:19.080481: Loading Chronos model: amazon/chronos-t5-tiny on cpu...
+2025-12-22 20:24:19.881551: Chronos model loaded successfully.
+2025-12-22 20:24:59.478460: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:25:01.458497: Prediction successful.
+2025-12-22 20:25:09.729804: Running prediction for 30 days ahead with input shape (21, 3)
+2025-12-22 20:25:10.282810: Prediction successful.
+2025-12-22 20:25:11.253612: Running prediction for 30 days ahead with input shape (21, 3)
+2025-12-22 20:25:11.708779: Prediction successful.
+2025-12-22 20:25:14.554708: Running prediction for 30 days ahead with input shape (21, 3)
+2025-12-22 20:25:15.015765: Prediction successful.
+2025-12-22 20:25:15.529470: Running prediction for 30 days ahead with input shape (21, 3)
+2025-12-22 20:25:16.041329: Prediction successful.
+2025-12-22 20:25:20.664280: Running prediction for 30 days ahead with input shape (66, 3)
+2025-12-22 20:25:21.349703: Prediction successful.
+2025-12-22 20:25:56.909634: Running prediction for 30 days ahead with input shape (130, 3)
+2025-12-22 20:25:56.921455: Prediction error with Chronos: Could not infer frequency for series series_1
+2025-12-22 20:26:09.594677: Running prediction for 30 days ahead with input shape (66, 3)
+2025-12-22 20:26:10.148689: Prediction successful.
+2025-12-22 20:26:13.099919: Running prediction for 30 days ahead with input shape (200, 3)
+2025-12-22 20:26:13.106189: Prediction error with Chronos: Could not infer frequency for series series_1
+2025-12-22 20:26:40.053076: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:26:40.630068: Prediction successful.
+2025-12-22 20:30:05.787415: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:30:06.314203: Prediction successful.
+2025-12-22 20:31:27.069128: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:31:27.885666: Prediction successful.
+2025-12-22 20:34:36.282840: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:34:36.887842: Prediction successful.
+2025-12-22 20:34:37.055008: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:34:37.608207: Prediction successful.
+2025-12-22 20:34:52.376175: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:34:53.603773: Prediction successful.
+2025-12-22 20:35:05.617452: Running prediction for 30 days ahead with input shape (21, 3)
+2025-12-22 20:35:06.256225: Prediction successful.
+2025-12-22 20:36:33.312800: Running prediction for 30 days ahead with input shape (130, 3)
+2025-12-22 20:36:33.319493: Prediction error with Chronos: Could not infer frequency for series series_1
+2025-12-22 20:36:40.584269: Running prediction for 30 days ahead with input shape (21, 3)
+2025-12-22 20:36:41.213719: Prediction successful.
+2025-12-22 20:38:43.683028: Loading Chronos model: amazon/chronos-t5-tiny on cpu...
+2025-12-22 20:38:44.441358: Chronos model loaded successfully.
+2025-12-22 20:38:58.068613: Running prediction for 30 days ahead with input shape (131, 3)
+2025-12-22 20:38:59.532302: Prediction successful.
+2025-12-22 20:39:11.655238: Running prediction for 30 days ahead with input shape (21, 3)
+2025-12-22 20:39:12.521625: Prediction successful.
+2025-12-22 20:39:13.149167: Running prediction for 30 days ahead with input shape (21, 3)
+2025-12-22 20:39:13.811145: Prediction successful.
+2025-12-22 20:39:23.830088: Running prediction for 30 days ahead with input shape (66, 3)
+2025-12-22 20:39:24.415622: Prediction successful.
+2025-12-22 20:39:51.650116: Running prediction for 30 days ahead with input shape (21, 3)
+2025-12-22 20:39:52.218053: Prediction successful.
+2025-12-22 20:40:00.943936: Running prediction for 30 days ahead with input shape (66, 3)
+2025-12-22 20:40:01.615210: Prediction successful.
+2025-12-22 20:40:19.613732: Running prediction for 30 days ahead with input shape (66, 3)
+2025-12-22 20:40:20.151871: Prediction successful.
+2025-12-22 20:40:27.169922: Running prediction for 30 days ahead with input shape (200, 3)
+2025-12-22 20:40:27.179776: Prediction error with Chronos: Could not infer frequency for series series_1
+2025-12-22 20:40:43.034614: Running prediction for 30 days ahead with input shape (200, 3)
+2025-12-22 20:40:43.039471: Prediction error with Chronos: Could not infer frequency for series series_1
+2025-12-22 20:40:47.562746: Running prediction for 30 days ahead with input shape (200, 3)
+2025-12-22 20:40:47.573131: Prediction error with Chronos: Could not infer frequency for series series_1
+2025-12-22 20:46:10.690951: Pipeline is None. Attempting to reload...
+2025-12-22 20:46:54.326940: Pipeline is None. Attempting to reload...

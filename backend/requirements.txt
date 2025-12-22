@@ -4,5 +4,7 @@ pandas
 numpy
 yfinance
 scikit-learn
-prophet
-python-dotenv
+torch
+transformers
+accelerate
+huggingface_hub
