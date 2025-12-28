@@ -14,14 +14,12 @@
     ];
 
     const COLORS = [
-        "#3b82f6", // Blue
-        "#ef4444", // Red
-        "#10b981", // Emerald
-        "#f59e0b", // Amber
-        "#8b5cf6", // Violet
-        "#ec4899", // Pink
-        "#06b6d4", // Cyan
-        "#f97316", // Orange
+        "#000000", // Black
+        "#D71921", // Retro Accent (Red)
+        "#555555", // Grey
+        "#aaaaaa", // Light Grey
+        "#333333", // Dark Grey
+        "#000000", // Black
     ];
 
     // State
@@ -130,7 +128,7 @@
                     borderColor: item.color,
                     backgroundColor: "transparent",
                     borderWidth: 2,
-                    tension: 0.4,
+                    tension: 0,
                     pointRadius: 0,
                     pointHoverRadius: 4,
                 };
@@ -157,11 +155,18 @@
                     plugins: {
                         legend: {
                             position: "top",
-                            labels: { color: "#94a3b8" },
+                            labels: {
+                                color: "#111",
+                                font: { family: "Space Mono" },
+                            },
                         },
                         tooltip: {
                             mode: "index",
                             intersect: false,
+                            backgroundColor: "#111",
+                            titleFont: { family: "Space Mono" },
+                            bodyFont: { family: "Space Mono" },
+                            cornerRadius: 0,
                             callbacks: {
                                 label: (context) =>
                                     `${context.dataset.label}: ${context.parsed.y.toFixed(2)}%`,
@@ -170,13 +175,22 @@
                     },
                     scales: {
                         x: {
-                            grid: { color: "rgba(255,255,255,0.05)" },
-                            ticks: { color: "#94a3b8", maxTicksLimit: 8 },
+                            grid: { display: false, borderColor: "#111" },
+                            ticks: {
+                                color: "#111",
+                                maxTicksLimit: 8,
+                                font: { family: "Space Mono" },
+                            },
                         },
                         y: {
-                            grid: { color: "rgba(255,255,255,0.05)" },
+                            grid: {
+                                color: "rgba(0,0,0,0.1)",
+                                borderDash: [2, 2],
+                                borderColor: "#111",
+                            },
                             ticks: {
-                                color: "#94a3b8",
+                                color: "#111",
+                                font: { family: "Space Mono" },
                                 callback: (v) => v + "%",
                             },
                         },
@@ -190,31 +204,33 @@
     });
 </script>
 
-<div class="h-full bg-slate-900 text-white min-h-[calc(100vh-64px)] p-6">
+<div
+    class="h-full bg-retro-surface text-retro-fg min-h-[calc(100vh-64px)] p-6 font-mono"
+>
     <div class="max-w-7xl mx-auto">
         <!-- Header -->
-        <h1 class="text-3xl font-bold mb-8 flex items-center gap-2">
-            <Activity class="w-8 h-8 text-blue-500" />
+        <h1
+            class="text-3xl font-display uppercase tracking-widest mb-8 flex items-center gap-2 border-b border-retro pb-4"
+        >
+            <Activity class="w-8 h-8 text-retro-accent" />
             Stock Comparison
         </h1>
 
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
             <!-- Sidebar: Search -->
             <div class="md:col-span-3 space-y-4">
-                <div
-                    class="bg-slate-800/50 rounded-xl p-4 border border-white/5"
-                >
+                <div class="bg-white border border-retro p-4">
                     <label
-                        class="block text-xs font-bold text-slate-400 uppercase mb-2"
+                        class="block text-xs font-bold text-retro-fg uppercase mb-2"
                         >Select Index</label
                     >
                     <div class="relative">
                         <select
                             bind:value={selectedIndex}
                             onchange={loadConstituents}
-                            class="w-full bg-slate-900 border border-white/10 rounded-lg p-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-blue-500 appearance-none"
+                            class="w-full bg-white border border-retro p-2 text-sm text-retro-fg focus:outline-none focus:border-retro-accent appearance-none rounded-none"
                         >
-                            <option value="">Start here...</option>
+                            <option value="">START HERE...</option>
                             {#each INDICES as idx}
                                 <option value={idx.symbol}>{idx.name}</option>
                             {/each}
@@ -224,23 +240,23 @@
                     {#if selectedIndex}
                         <div class="mt-4 animate-in fade-in">
                             <div class="relative mb-2">
-                                <Search
-                                    class="absolute left-3 top-2.5 w-4 h-4 text-slate-500"
+                                <LinkIcon
+                                    class="absolute left-3 top-2.5 w-4 h-4 text-gray-400"
                                 />
                                 <input
                                     type="text"
-                                    placeholder="Filter companies..."
+                                    placeholder="FILTER COMPANIES..."
                                     bind:value={tickerSearch}
-                                    class="w-full bg-slate-900 border border-white/10 rounded-lg pl-9 pr-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                    class="w-full bg-white border border-retro pl-3 pr-3 py-2 text-sm text-retro-fg focus:outline-none focus:border-retro-accent uppercase font-mono"
                                 />
                             </div>
 
                             <div
-                                class="max-h-[400px] overflow-y-auto custom-scrollbar space-y-1"
+                                class="max-h-[400px] overflow-y-auto custom-scrollbar space-y-1 mt-4"
                             >
                                 {#each filteredConstituents as company}
                                     <button
-                                        class="w-full text-left p-2 rounded hover:bg-white/5 flex items-center justify-between group transition-colors"
+                                        class="w-full text-left p-2 border border-transparent hover:bg-retro-surface hover:border-retro flex items-center justify-between group transition-colors"
                                         onclick={() =>
                                             addToComparison(company.ticker)}
                                     >
@@ -250,18 +266,18 @@
                                                 >{company.ticker}</span
                                             >
                                             <span
-                                                class="text-xs text-slate-500 truncate block max-w-[140px]"
+                                                class="text-xs text-gray-500 truncate block max-w-[140px] uppercase"
                                                 >{company.name}</span
                                             >
                                         </div>
                                         <Plus
-                                            class="w-4 h-4 text-slate-500 group-hover:text-blue-400 opacity-0 group-hover:opacity-100 transition-all"
+                                            class="w-4 h-4 text-retro-accent opacity-0 group-hover:opacity-100 transition-all"
                                         />
                                     </button>
                                 {/each}
                                 {#if loading}
                                     <div
-                                        class="text-center py-4 text-slate-500 text-xs"
+                                        class="text-center py-4 text-gray-500 text-xs uppercase animate-pulse"
                                     >
                                         Loading...
                                     </div>
@@ -277,13 +293,13 @@
                 {#if comparisonList.length > 0}
                     <!-- Chart Card -->
                     <div
-                        class="bg-slate-800/30 rounded-xl border border-white/5 p-4 h-[400px] relative"
+                        class="bg-white border border-retro p-4 h-[400px] relative"
                     >
                         <div class="absolute top-4 right-4 z-10">
                             <select
                                 bind:value={period}
                                 onchange={updatePeriod}
-                                class="bg-slate-900 border border-white/10 text-xs text-white rounded px-2 py-1"
+                                class="bg-white border border-retro text-xs text-retro-fg px-2 py-1 uppercase cursor-pointer"
                             >
                                 <option value="1mo">1 Month</option>
                                 <option value="3mo">3 Months</option>
@@ -295,13 +311,11 @@
                     </div>
 
                     <!-- Comparison Table -->
-                    <div
-                        class="bg-slate-800/30 rounded-xl border border-white/5 overflow-hidden"
-                    >
+                    <div class="bg-white border border-retro overflow-hidden">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left text-sm">
+                            <table class="w-full text-left text-sm font-mono">
                                 <thead
-                                    class="bg-slate-900/50 text-xs uppercase text-slate-500 text-right"
+                                    class="bg-retro-surface text-xs uppercase text-retro-fg border-b border-retro"
                                 >
                                     <tr>
                                         <th class="px-4 py-3 text-left w-12"
@@ -310,29 +324,43 @@
                                         <th class="px-4 py-3 text-left"
                                             >Ticker</th
                                         >
-                                        <th class="px-4 py-3">Price</th>
-                                        <th class="px-4 py-3">Change</th>
-                                        <th class="px-4 py-3">Mkt Cap</th>
-                                        <th class="px-4 py-3">P/E</th>
-                                        <th class="px-4 py-3">Yield</th>
-                                        <th class="px-4 py-3">Beta</th>
-                                        <th class="px-4 py-3">ROE</th>
-                                        <th class="px-4 py-3">Action</th>
+                                        <th class="px-4 py-3 text-right"
+                                            >Price</th
+                                        >
+                                        <th class="px-4 py-3 text-right"
+                                            >Change</th
+                                        >
+                                        <th class="px-4 py-3 text-right"
+                                            >Mkt Cap</th
+                                        >
+                                        <th class="px-4 py-3 text-right">P/E</th
+                                        >
+                                        <th class="px-4 py-3 text-right"
+                                            >Yield</th
+                                        >
+                                        <th class="px-4 py-3 text-right"
+                                            >Beta</th
+                                        >
+                                        <th class="px-4 py-3 text-right">ROE</th
+                                        >
+                                        <th class="px-4 py-3 text-right"
+                                            >Action</th
+                                        >
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-white/5">
+                                <tbody class="divide-y divide-retro">
                                     {#each comparisonList as item}
                                         <tr
-                                            class="hover:bg-white/5 transition-colors group"
+                                            class="hover:bg-retro-surface transition-colors group"
                                         >
                                             <td class="px-4 py-3">
                                                 <div
-                                                    class="w-3 h-3 rounded-full"
+                                                    class="w-3 h-3 border border-black"
                                                     style="background-color: {item.color}"
                                                 ></div>
                                             </td>
                                             <td
-                                                class="px-4 py-3 font-bold text-white text-left"
+                                                class="px-4 py-3 font-bold text-retro-fg text-left"
                                                 >{item.ticker}</td
                                             >
                                             <td class="px-4 py-3 text-right">
@@ -341,7 +369,7 @@
                                                 )}{item.data.details.currency}
                                             </td>
                                             <td
-                                                class={`px-4 py-3 text-right font-mono ${item.data.details.change >= 0 ? "text-emerald-400" : "text-rose-400"}`}
+                                                class={`px-4 py-3 text-right font-mono ${item.data.details.change >= 0 ? "text-retro-fg" : "text-retro-accent"}`}
                                             >
                                                 {item.data.details.change > 0
                                                     ? "+"
@@ -350,7 +378,7 @@
                                                 )}%
                                             </td>
                                             <td
-                                                class="px-4 py-3 text-right text-slate-300"
+                                                class="px-4 py-3 text-right text-gray-600"
                                             >
                                                 {item.data.kpi?.marketCap
                                                     ? (
@@ -360,14 +388,14 @@
                                                     : "-"}
                                             </td>
                                             <td
-                                                class="px-4 py-3 text-right text-slate-300"
+                                                class="px-4 py-3 text-right text-gray-600"
                                             >
                                                 {item.data.kpi?.trailingPE?.toFixed(
                                                     1,
                                                 ) || "-"}
                                             </td>
                                             <td
-                                                class="px-4 py-3 text-right text-emerald-400"
+                                                class="px-4 py-3 text-right text-retro-accent"
                                             >
                                                 {item.data.kpi?.dividendYield
                                                     ? (
@@ -378,14 +406,14 @@
                                                     : "-"}
                                             </td>
                                             <td
-                                                class="px-4 py-3 text-right text-slate-300"
+                                                class="px-4 py-3 text-right text-gray-600"
                                             >
                                                 {item.data.kpi?.beta?.toFixed(
                                                     2,
                                                 ) || "-"}
                                             </td>
                                             <td
-                                                class="px-4 py-3 text-right text-blue-400"
+                                                class="px-4 py-3 text-right text-blue-600"
                                             >
                                                 {item.data.kpi?.returnOnEquity
                                                     ? (
@@ -397,7 +425,7 @@
                                             </td>
                                             <td class="px-4 py-3 text-right">
                                                 <button
-                                                    class="text-slate-500 hover:text-red-400 p-1"
+                                                    class="text-gray-400 hover:text-retro-accent p-1"
                                                     onclick={() =>
                                                         removeComparison(
                                                             item.ticker,
@@ -414,11 +442,15 @@
                     </div>
                 {:else}
                     <div
-                        class="h-[400px] flex flex-col items-center justify-center text-slate-500 border-2 border-dashed border-white/5 rounded-xl bg-slate-800/10"
+                        class="h-[400px] flex flex-col items-center justify-center text-gray-500 border border-dashed border-retro rounded-none bg-white"
                     >
-                        <TrendingUp class="w-12 h-12 mb-4 opacity-20" />
-                        <p class="text-lg font-medium">No stocks selected</p>
-                        <p class="text-sm">
+                        <TrendingUp class="w-12 h-12 mb-4 opacity-50" />
+                        <p
+                            class="text-lg font-display uppercase tracking-wider"
+                        >
+                            No stocks selected
+                        </p>
+                        <p class="text-sm font-mono uppercase mt-2">
                             Select an index and add companies to compare
                         </p>
                     </div>
@@ -427,3 +459,20 @@
         </div>
     </div>
 </div>
+
+<style>
+    /* Custom Scrollbar - Retro Style */
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: var(--color-bg);
+        border-left: 1px solid var(--color-fg);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: var(--color-fg);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: var(--color-accent);
+    }
+</style>

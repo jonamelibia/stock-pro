@@ -1,1 +1,48 @@
 @import "tailwindcss";
+
+:root {
+    --color-bg: #e8e8e8;
+    --color-fg: #111;
+    --color-accent: #D71921;
+    /* Nothing Red */
+    --font-mono: 'Space Mono', monospace;
+    --font-display: 'DotGothic16', monospace;
+}
+
+@theme {
+    --font-mono: var(--font-mono);
+    --font-display: var(--font-display);
+    --color-retro-bg: var(--color-bg);
+    --color-retro-fg: var(--color-fg);
+    --color-retro-accent: var(--color-accent);
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-mono);
+
+    /* Dotted Background Pattern */
+    background-image: radial-gradient(var(--color-fg) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Utility classes for Nothing style */
+.border-retro {
+    border: 1px solid var(--color-fg);
+}
+
+.bg-retro-surface {
+    background-color: var(--color-bg);
+}
