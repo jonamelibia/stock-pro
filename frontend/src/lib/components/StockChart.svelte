@@ -1,112 +1,105 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-    import Chart from "chart.js/auto";
+	import { onMount, onDestroy } from "svelte";
+	import Chart from "chart.js/auto";
+	import "chartjs-adapter-date-fns";
 
-    let { data, title } = $props<{ data: any; title: string }>();
-    let canvas: HTMLCanvasElement;
-    let chart: Chart;
+	let { data, title = "Stock Price", color = "#0066ff" } = $props();
 
-    onMount(() => {
-        if (canvas) {
-            chart = new Chart(canvas, {
-                type: "line",
-                data: data,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    elements: {
-                        line: {
-                            borderColor: "#D71921", // Retro Accent
-                            borderWidth: 2,
-                            tension: 0, // Sharp lines
-                        },
-                        point: {
-                            backgroundColor: "#111", // Retro Foreground
-                            radius: 0,
-                            hoverRadius: 6,
-                        },
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false, // Clean look
-                                drawBorder: true,
-                                borderColor: "#111",
-                            },
-                            ticks: {
-                                font: {
-                                    family: "'Space Mono', monospace",
-                                },
-                                color: "#111",
-                            },
-                        },
-                        y: {
-                            grid: {
-                                color: "#e5e5e5", // Subtle grid
-                                borderDash: [2, 2], // Dotted grid
-                                drawBorder: true,
-                                borderColor: "#111",
-                            },
-                            ticks: {
-                                font: {
-                                    family: "'Space Mono', monospace",
-                                },
-                                color: "#111",
-                            },
-                        },
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: title,
-                            font: {
-                                family: "'DotGothic16', monospace",
-                                size: 16,
-                            },
-                            color: "#111",
-                            padding: 20,
-                        },
-                        legend: {
-                            labels: {
-                                font: {
-                                    family: "'Space Mono', monospace",
-                                },
-                                color: "#111",
-                            },
-                        },
-                        tooltip: {
-                            mode: "index",
-                            intersect: false,
-                            backgroundColor: "#111",
-                            titleFont: { family: "'Space Mono', monospace" },
-                            bodyFont: { family: "'Space Mono', monospace" },
-                            cornerRadius: 0, // Sharp corners
-                            displayColors: false,
-                        },
-                    },
-                    interaction: {
-                        mode: "nearest",
-                        axis: "x",
-                        intersect: false,
-                    },
-                },
-            });
-        }
+	let chartCanvas: HTMLCanvasElement;
+	let chart: Chart;
 
-        return () => {
-            if (chart) chart.destroy();
-        };
-    });
+	$effect(() => {
+		if (chart) {
+			chart.data.labels = data.map((d: any) => d.date);
+			chart.data.datasets[0].data = data.map((d: any) => d.close);
+			chart.update();
+		}
+	});
 
-    // Watch for data changes
-    $effect(() => {
-        if (chart && data) {
-            chart.data = data;
-            chart.update();
-        }
-    });
+	onMount(() => {
+		chart = new Chart(chartCanvas, {
+			type: "line",
+			data: {
+				labels: data.map((d: any) => d.date),
+				datasets: [
+					{
+						label: title,
+						data: data.map((d: any) => d.close),
+						borderColor: color,
+						backgroundColor: (context) => {
+							const ctx = context.chart.ctx;
+							const gradient = ctx.createLinearGradient(
+								0,
+								0,
+								0,
+								400,
+							);
+							gradient.addColorStop(0, color + "22");
+							gradient.addColorStop(1, color + "00");
+							return gradient;
+						},
+						fill: true,
+						tension: 0.4,
+						pointRadius: 0,
+						pointHitRadius: 10,
+						borderWidth: 2,
+					},
+				],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				layout: { padding: { top: 10, bottom: 10 } },
+				plugins: {
+					legend: { display: false },
+					tooltip: {
+						mode: "index",
+						intersect: false,
+						backgroundColor: "rgba(255, 255, 255, 0.95)",
+						titleColor: "#6b7280",
+						titleFont: { family: "Inter", size: 11, weight: "600" },
+						bodyColor: "#0a0a0a",
+						bodyFont: { family: "Inter", size: 14, weight: "700" },
+						borderColor: "#e8eaed",
+						borderWidth: 1,
+						padding: 12,
+						displayColors: false,
+						callbacks: {
+							label: (context) =>
+								`$${context.parsed.y.toLocaleString()}`,
+						},
+					},
+				},
+				scales: {
+					x: {
+						type: "time",
+						time: { unit: "day" },
+						grid: { display: false },
+						ticks: {
+							color: "#9ca3af",
+							font: { family: "Inter", size: 10 },
+							maxRotation: 0,
+						},
+					},
+					y: {
+						grid: { color: "#f7f8fa", drawTicks: false },
+						border: { display: false },
+						ticks: {
+							color: "#9ca3af",
+							font: { family: "Inter", size: 10 },
+							callback: (value) => "$" + value,
+						},
+					},
+				},
+			},
+		});
+	});
+
+	onDestroy(() => {
+		if (chart) chart.destroy();
+	});
 </script>
 
-<div class="relative h-96 w-full">
-    <canvas bind:this={canvas}></canvas>
+<div class="h-full w-full">
+	<canvas bind:this={chartCanvas}></canvas>
 </div>

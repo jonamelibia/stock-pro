@@ -1,217 +1,156 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-    import { api, type MarketIndex } from "$lib/services/api";
-    import { ArrowRight, TrendingUp, Activity, BarChart2 } from "lucide-svelte";
+	import { TrendingUp, Sparkles, BarChart3 } from "lucide-svelte";
+	import StockSearch from "$lib/components/StockSearch.svelte";
+	import { goto } from "$app/navigation";
 
-    let indices: MarketIndex[] = $state([]);
-    let loaded = $state(false);
+	interface Props {
+		data: {
+			stocks: any[];
+		};
+	}
 
-    onMount(async () => {
-        try {
-            const allIndices = await api.getIndices();
-            // Filter for European Indices only
-            const europeanSymbols = [
-                "^IBEX",
-                "^GDAXI",
-                "^FCHI",
-                "^FTSE",
-                "^STOXX50E",
-            ];
-            indices = allIndices.filter((i) =>
-                europeanSymbols.includes(i.ticker),
-            );
-            loaded = true;
-        } catch (e) {
-            console.error("Failed to load indices for ticker", e);
-        }
-    });
+	let { data }: Props = $props();
+
+	function handleStockSelect(symbol: string) {
+		goto(`/analysis?ticker=${symbol}`);
+	}
 </script>
 
-<div class="min-h-screen relative overflow-hidden bg-retro-surface">
-    <!-- Ticker Tape -->
-    <div
-        class="relative z-10 w-full bg-retro-surface border-b border-retro py-2 overflow-hidden flex"
-    >
-        <div class="flex animate-marquee whitespace-nowrap gap-8 items-center">
-            {#each [...indices, ...indices] as index}
-                <div class="flex items-center gap-2 font-mono text-sm">
-                    <span class="font-bold uppercase tracking-wide"
-                        >{index.name}</span
-                    >
-                    <span
-                        class={` ${index.change >= 0 ? "text-retro-fg" : "text-retro-accent"}`}
-                    >
-                        {index.price.toFixed(2)}
-                    </span>
-                    <span
-                        class={`text-xs ${index.change >= 0 ? "text-retro-fg" : "text-retro-accent"}`}
-                    >
-                        {index.change >= 0 ? "▲" : "▼"}
-                        {Math.abs(index.change_percent)}%
-                    </span>
-                </div>
-            {/each}
-            {#if indices.length === 0}
-                <span class="text-retro-fg font-mono text-sm uppercase"
-                    >Loading Market Data...</span
-                >
-            {/if}
-        </div>
-    </div>
+<div class="min-h-screen">
+	<!-- Hero Section -->
+	<section class="py-32 px-6 text-center">
+		<div class="container max-w-4xl mx-auto space-y-12">
+			<div class="space-y-6">
+				<div
+					class="inline-flex items-center gap-2 px-4 py-2 bg-[#e6f0ff] rounded-full"
+				>
+					<Sparkles class="text-[#0066ff]" size={16} />
+					<span class="text-sm font-semibold text-[#0066ff]"
+						>AI-Powered Analysis</span
+					>
+				</div>
 
-    <!-- Main Content -->
-    <main
-        class="relative z-10 container mx-auto px-4 pt-20 pb-12 flex flex-col items-center text-center"
-    >
-        <!-- Hero Badge -->
-        <div
-            class="inline-flex items-center gap-2 px-3 py-1 border border-retro text-retro-fg text-xs font-mono uppercase mb-8 fade-in-up"
-        >
-            <span class="relative flex h-2 w-2">
-                <span
-                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-retro-accent opacity-75"
-                ></span>
-                <span
-                    class="relative inline-flex rounded-full h-2 w-2 bg-retro-accent"
-                ></span>
-            </span>
-            Powered by Amazon Chronos AI
-        </div>
+				<h1
+					class="text-6xl md:text-7xl font-bold text-[#0a0a0a] leading-tight"
+				>
+					Smarter investing<br />starts here
+				</h1>
 
-        <!-- Hero Title -->
-        <h1
-            class="text-5xl md:text-7xl font-display mb-6 fade-in-up delay-100 uppercase leading-none"
-        >
-            <span class="block">Predict the Market.</span>
-            <span class="text-retro-accent">Own the Future.</span>
-        </h1>
+				<p class="text-xl text-[#6b7280] max-w-2xl mx-auto">
+					Real-time market data and AI predictions for any stock
+				</p>
+			</div>
 
-        <!-- Hero Subtitle -->
-        <p
-            class="text-xl text-retro-fg font-mono max-w-2xl mb-10 fade-in-up delay-200 uppercase tracking-tight"
-        >
-            Advanced neural forecasting models meet real-time european market
-            data.
-        </p>
+			<!-- Search -->
+			<div class="max-w-2xl mx-auto">
+				<StockSearch onSelect={handleStockSelect} />
+			</div>
+		</div>
+	</section>
 
-        <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4 mb-20 fade-in-up delay-300">
-            <a
-                href="/analysis"
-                class="group relative px-8 py-4 border border-retro bg-retro-accent text-white font-mono uppercase text-lg hover:bg-white hover:text-retro-accent transition-colors"
-            >
-                <span class="relative z-10 flex items-center gap-2">
-                    Launch Platform <ArrowRight
-                        class="w-5 h-5 group-hover:translate-x-1 transition-transform"
-                    />
-                </span>
-            </a>
-        </div>
+	<!-- Popular Stocks -->
+	{#if data.stocks && data.stocks.length > 0}
+		<section class="py-20 px-6">
+			<div class="container max-w-6xl mx-auto">
+				<h2 class="text-3xl font-bold text-[#0a0a0a] text-center mb-12">
+					Popular Stocks
+				</h2>
 
-        <!-- Feature Grid -->
-        <div
-            class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl fade-in-up delay-500"
-        >
-            <!-- Feature 1 -->
-            <div
-                class="p-8 border border-retro bg-retro-surface hover:bg-white transition-colors text-left group"
-            >
-                <div
-                    class="border border-retro w-12 h-12 flex items-center justify-center mb-4 text-retro-fg group-hover:bg-retro-accent group-hover:text-white group-hover:border-retro-accent transition-colors"
-                >
-                    <TrendingUp class="w-6 h-6" />
-                </div>
-                <h3 class="text-xl font-display uppercase mb-2">
-                    AI-Driven Forecasts
-                </h3>
-                <p class="text-retro-fg font-mono text-sm leading-relaxed">
-                    Leveraging state-of-the-art Chronos Transformers to predict
-                    short-term price movements.
-                </p>
-            </div>
+				<div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+					{#each data.stocks as stock}
+						<button
+							onclick={() => handleStockSelect(stock.symbol)}
+							class="bg-white rounded-2xl border border-[#e8eaed] p-6 text-center hover:border-[#0066ff] hover:shadow-lg transition-all"
+						>
+							<div class="font-bold text-[#0a0a0a] mb-3 text-lg">
+								{stock.symbol}
+							</div>
+							<div class="text-3xl font-bold text-[#0a0a0a] mb-3">
+								${stock.price?.toFixed(0) || "N/A"}
+							</div>
+							<div
+								class="{stock.change_percent >= 0
+									? 'text-[#00d47e]'
+									: 'text-[#ff3b69]'} font-semibold"
+							>
+								{stock.change_percent >= 0
+									? "+"
+									: ""}{stock.change_percent?.toFixed(2)}%
+							</div>
+						</button>
+					{/each}
+				</div>
+			</div>
+		</section>
+	{/if}
 
-            <!-- Feature 2 -->
-            <div
-                class="p-8 border border-retro bg-retro-surface hover:bg-white transition-colors text-left group"
-            >
-                <div
-                    class="border border-retro w-12 h-12 flex items-center justify-center mb-4 text-retro-fg group-hover:bg-retro-accent group-hover:text-white group-hover:border-retro-accent transition-colors"
-                >
-                    <Activity class="w-6 h-6" />
-                </div>
-                <h3 class="text-xl font-display uppercase mb-2">
-                    Technical Indicators
-                </h3>
-                <p class="text-retro-fg font-mono text-sm leading-relaxed">
-                    Automated calculation of Bollinger Bands, RSI, MACD, and
-                    Moving Averages.
-                </p>
-            </div>
+	<!-- Features -->
+	<section class="py-32 px-6 bg-white">
+		<div class="container max-w-5xl mx-auto">
+			<h2 class="text-4xl font-bold text-[#0a0a0a] text-center mb-20">
+				Everything you need
+			</h2>
 
-            <!-- Feature 3 -->
-            <div
-                class="p-8 border border-retro bg-retro-surface hover:bg-white transition-colors text-left group"
-            >
-                <div
-                    class="border border-retro w-12 h-12 flex items-center justify-center mb-4 text-retro-fg group-hover:bg-retro-accent group-hover:text-white group-hover:border-retro-accent transition-colors"
-                >
-                    <BarChart2 class="w-6 h-6" />
-                </div>
-                <h3 class="text-xl font-display uppercase mb-2">
-                    Market Constituents
-                </h3>
-                <p class="text-retro-fg font-mono text-sm leading-relaxed">
-                    Drill down into major European indices (IBEX, DAX, CAC) to
-                    find top performers.
-                </p>
-            </div>
-        </div>
+			<div class="grid md:grid-cols-3 gap-16">
+				<div class="text-center space-y-4">
+					<div
+						class="w-16 h-16 bg-gradient-to-br from-[#0066ff] to-[#00d47e] rounded-2xl flex items-center justify-center mx-auto"
+					>
+						<Sparkles class="text-white" size={28} />
+					</div>
+					<h3 class="text-xl font-bold text-[#0a0a0a]">
+						AI Predictions
+					</h3>
+					<p class="text-[#6b7280]">
+						Machine learning models predict future prices
+					</p>
+				</div>
 
-        <footer
-            class="mt-20 text-retro-fg font-mono text-xs uppercase border-t border-retro pt-8 w-full max-w-6xl"
-        >
-            © 2025 Stock Pro Europe. Data provided for demonstration purposes.
-        </footer>
-    </main>
+				<div class="text-center space-y-4">
+					<div
+						class="w-16 h-16 bg-gradient-to-br from-[#00d47e] to-[#0066ff] rounded-2xl flex items-center justify-center mx-auto"
+					>
+						<BarChart3 class="text-white" size={28} />
+					</div>
+					<h3 class="text-xl font-bold text-[#0a0a0a]">
+						Technical Analysis
+					</h3>
+					<p class="text-[#6b7280]">
+						Professional indicators and charts
+					</p>
+				</div>
+
+				<div class="text-center space-y-4">
+					<div
+						class="w-16 h-16 bg-gradient-to-br from-[#ff3b69] to-[#ffb800] rounded-2xl flex items-center justify-center mx-auto"
+					>
+						<TrendingUp class="text-white" size={28} />
+					</div>
+					<h3 class="text-xl font-bold text-[#0a0a0a]">
+						Real-Time Data
+					</h3>
+					<p class="text-[#6b7280]">
+						Live market data from Alpha Vantage
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- CTA -->
+	<section class="py-32 px-6">
+		<div class="container max-w-3xl mx-auto text-center space-y-8">
+			<h2 class="text-5xl font-bold text-[#0a0a0a]">Ready to start?</h2>
+			<p class="text-xl text-[#6b7280]">
+				Join thousands of investors making smarter decisions
+			</p>
+			<a
+				href="/analysis"
+				class="inline-flex items-center gap-2 px-8 py-4 bg-[#0066ff] text-white rounded-full font-semibold hover:bg-[#0052cc] transition-colors"
+			>
+				<BarChart3 size={20} />
+				Start Analyzing
+			</a>
+		</div>
+	</section>
 </div>
-
-<style>
-    @keyframes marquee {
-        0% {
-            transform: translateX(0);
-        }
-        100% {
-            transform: translateX(-50%);
-        }
-    }
-    .animate-marquee {
-        animation: marquee 30s linear infinite;
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    .fade-in-up {
-        animation: fadeInUp 0.8s ease-out forwards;
-        opacity: 0;
-    }
-    .delay-100 {
-        animation-delay: 0.1s;
-    }
-    .delay-200 {
-        animation-delay: 0.2s;
-    }
-    .delay-300 {
-        animation-delay: 0.3s;
-    }
-    .delay-500 {
-        animation-delay: 0.5s;
-    }
-</style>
