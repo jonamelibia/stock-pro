@@ -3,22 +3,22 @@ import { env } from '$env/dynamic/private';
 
 const client = new OAuth2Client(
     env.GOOGLE_CLIENT_ID,
-    env.GOOGLE_CLIENT_SECRET,
-    'http://localhost:5173/oauth'
+    env.GOOGLE_CLIENT_SECRET
 );
 
 export const GoogleAuthService = {
     /**
      * Generate the Google OAuth URL for user login
      */
-    getAuthUrl(): string {
+    getAuthUrl(redirectUri: string): string {
         const url = client.generateAuthUrl({
             access_type: 'offline',
             scope: [
                 'https://www.googleapis.com/auth/userinfo.profile',
                 'https://www.googleapis.com/auth/userinfo.email'
             ],
-            prompt: 'consent'
+            prompt: 'consent',
+            redirect_uri: redirectUri
         });
         return url;
     },
@@ -26,10 +26,13 @@ export const GoogleAuthService = {
     /**
      * Exchange authorization code for tokens and get user info
      */
-    async getUserFromCode(code: string) {
+    async getUserFromCode(code: string, redirectUri: string) {
         try {
             // Get tokens from authorization code
-            const { tokens } = await client.getToken(code);
+            const { tokens } = await client.getToken({
+                code,
+                redirect_uri: redirectUri
+            });
             client.setCredentials(tokens);
 
             // Get user info

@@ -10,7 +10,8 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
     }
 
     try {
-        const user = await GoogleAuthService.getUserFromCode(code);
+        const redirectUri = `${url.origin}/oauth`;
+        const user = await GoogleAuthService.getUserFromCode(code, redirectUri);
 
         // Store user session in cookie
         cookies.set('session', JSON.stringify({
